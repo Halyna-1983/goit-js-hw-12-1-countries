@@ -4,8 +4,7 @@ import countriesList from './templates/countriesList.hbs'
 import countryCard from './templates/countriesCard.hbs'
 import { error } from '@pnotify/core';
 import '@pnotify/core/dist/BrightTheme.css';
-// import '@pnotify/core/dist/PNotify.css';
-// import '../css/style.css';
+import './js/styles.css';
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
@@ -16,12 +15,13 @@ refs.searchForm.addEventListener('input', debounce(onSearch, 500))
 
 function onSearch(event) {
     const searchQuery = event.target.value;
+    refs.output.innerHTML = '';
      
   API.fetchCountries(searchQuery).then(data => {
     if (data.length > 10){
       console.log("Too many!");
       error({
-        text: 'Too many fetches found!', delay: 5000,
+        text: 'Too many fetches found!', closer: false, sticker: false, delay: 5000,
       });
     }
 
