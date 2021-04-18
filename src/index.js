@@ -2,8 +2,8 @@ import { debounce } from 'lodash';
 import API from './js/fetchCountries';
 import countriesList from './templates/countriesList.hbs'
 import countryCard from './templates/countriesCard.hbs'
-// import { error } from '@pnotify/core';
-// import '@pnotify/core/dist/BrightTheme.css';
+import { error } from '@pnotify/core';
+import '@pnotify/core/dist/BrightTheme.css';
 // import '@pnotify/core/dist/PNotify.css';
 // import '../css/style.css';
 
@@ -20,6 +20,9 @@ function onSearch(event) {
   API.fetchCountries(searchQuery).then(data => {
     if (data.length > 10){
       console.log("Too many!");
+      error({
+        text: 'Too many fetches found!', delay: 5000,
+      });
     }
 
     if (data.length <= 10 && data.length >= 2) {
