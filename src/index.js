@@ -1,7 +1,7 @@
 import { debounce } from 'lodash';
 import API from './js/fetchCountries';
-// import countriesListTemplate from './templates/countriesList.hbs'
-// import countryCardTemplate from './templates/countriesCard.hbs'
+import countriesList from './templates/countriesList.hbs'
+import countryCard from './templates/countriesCard.hbs'
 // import { error } from '@pnotify/core';
 // import '@pnotify/core/dist/BrightTheme.css';
 // import '@pnotify/core/dist/PNotify.css';
@@ -9,7 +9,7 @@ import API from './js/fetchCountries';
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
-  output: document.querySelector('container'),
+  output: document.querySelector('.container'),
 };
 
 refs.searchForm.addEventListener('input', debounce(onSearch, 500))
@@ -17,15 +17,28 @@ refs.searchForm.addEventListener('input', debounce(onSearch, 500))
 function onSearch(event) {
     const searchQuery = event.target.value;
      
-  API.fetchCountries(searchQuery)
+  API.fetchCountries(searchQuery).then(data => {
+    if (data.length > 10){
+      console.log("Too many!");
+    }
+
+    if (data.length <= 10 && data.length >= 2) {
+      console.log("countriesList");
+      renderCountriesList(data);
+    }
+
+    if (data.length === 1) {
+      API.fetchCountries(searchQuery).then(console.log)
+      console.log("Card");
+      renderCountryCard(data);
+    }
+  })
 }
 
-console.log(API.BASE_URL);
+function renderCountriesList(list) {
+refs.output.innerHTML = countriesList(list)
+}
 
-// function renderCountriesList(listData) {
-//   refs.output.innerHTML = countriesListTemplate(listData)
-// }
-
-// function renderCountryCard(countryData) {
-//   refs.output.innerHTML = countryCardTemplate(countryData)
-// }
+ function renderCountryCard(country) {
+ refs.output.innerHTML = countryCard(country)
+}
