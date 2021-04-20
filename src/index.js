@@ -4,7 +4,7 @@ import countriesList from './templates/countriesList.hbs'
 import countryCard from './templates/countriesCard.hbs'
 import { error } from '@pnotify/core';
 import '@pnotify/core/dist/BrightTheme.css';
-import './js/styles.css';
+import './css/styles.css';
 
 const refs = {
   searchForm: document.querySelector('.js-search-form'),
